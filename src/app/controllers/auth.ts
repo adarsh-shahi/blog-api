@@ -3,6 +3,7 @@ import pool from "../config/db";
 import { addUser } from "../queries/userQueries";
 import AppError from "../utils/AppError";
 import validator from "validator";
+import brypt from "bcryptjs";
 
 const login = (req: Request, res: Response, next: NextFunction) => {};
 
@@ -60,13 +61,14 @@ const signup = async (req: Request, res: Response, next: NextFunction) => {
 			);
 		}
 
+		user.password = await brypt.hash(user.password, 8);
 		await pool.query(addUser(user));
 
 		res.status(201).json({
 			status: "success",
 			message: {
-				username: user.email,
-				email: user.password,
+				username: user.username,
+				email: user.email,
 			},
 		});
 	} catch (err: any) {
