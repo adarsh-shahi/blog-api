@@ -4,9 +4,9 @@ const makePost = (id: number, title: string, content: string) => {
   `;
 };
 
-const getAllPost = () => {
+const getAllPost = (limit: number, offset: number) => {
 	return `
-  SELECT username, user_id, posts.id, title, content, posts.updated_at FROM posts INNER JOIN users ON users.id = posts.user_id;
+  SELECT username, user_id, posts.id, title, content, posts.updated_at FROM posts INNER JOIN users ON users.id = posts.user_id ORDER BY posts.updated_at DESC LIMIT ${limit} OFFSET ${offset};
   `;
 };
 

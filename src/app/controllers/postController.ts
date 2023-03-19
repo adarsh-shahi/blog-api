@@ -12,7 +12,10 @@ import {
 
 const getAllPosts = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const response = await pool.query(getAllPost());
+		const limit: number = +(req.query.limit || "") || 2;
+		const page: number = +(req.query.page || "") || 1;
+
+		const response = await pool.query(getAllPost(limit, limit * (page - 1)));
 		console.log(response);
 		res.status(200).json({
 			status: "success",
