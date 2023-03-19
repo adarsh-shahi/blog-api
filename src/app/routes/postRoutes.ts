@@ -6,6 +6,7 @@ import {
 	getAllPosts,
 	getPost,
 	updatePost,
+	getAllPostsByUserId,
 } from "../controllers/postController";
 
 const router = express.Router();
@@ -16,5 +17,5 @@ router
 	.get(protect, getPost)
 	.patch(protect, updatePost)
 	.delete(protect, deletePost);
-
+router.get("/user/:id", protect, getAllPostsByUserId);
 export default router;

@@ -6,17 +6,35 @@ import {
 	makePost,
 	updatePostById,
 	deletePostById,
+	getPostsByUserId,
+	getAllPost,
 } from "../queries/postQueries";
-import { findUserByUsername } from "../queries/userQueries";
 
-const getAllPosts = () => {};
+const getAllPosts = async (req: Request, res: Response, next: NextFunction) => {
+	try {
+		const response = await pool.query(getAllPost());
+		console.log(response);
+		res.status(200).json({
+			status: "success",
+			message: {
+				postLength: response.rowCount,
+				posts: response.rows,
+			},
+		});
+	} catch (err: any) {
+		console.log(err.message);
+		next(new AppError("internal server error", 502));
+	}
+};
 
 const createPost = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const { content }: { content: string } = req.body;
-		content.trim();
-		if (!content) return next(new AppError("add content to make a post", 401));
-		await pool.query(makePost(req.user.id, content));
+		const { title, content }: { content: string; title: string } = req.body;
+		content?.trim();
+		title?.trim();
+		if (!content || !title)
+			return next(new AppError("add content and title to make a post", 401));
+		await pool.query(makePost(req.user.id, title, content));
 		res.status(201).json({
 			status: "success",
 			message: "posted",
@@ -34,6 +52,7 @@ const getPost = async (req: Request, res: Response, next: NextFunction) => {
 		const postData = {
 			username: response.rows[0].username,
 			user_id: response.rows[0].user_id,
+			title: response.rows[0].title,
 			content: response.rows[0].content,
 			post_id: response.rows[0].id,
 			updated_at: response.rows[0].updated_at,
@@ -45,18 +64,47 @@ const getPost = async (req: Request, res: Response, next: NextFunction) => {
 	}
 };
 
+const getAllPostsByUserId = async (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
+	const userId = +req.params.id;
+	const response = await pool.query(getPostsByUserId(userId));
+	const totalPosts = response.rows.length;
+	console.log(response.rows);
+	res.status(200).json({
+		status: "success",
+		message: {
+			totalPosts,
+			posts: response.rows,
+		},
+	});
+};
+
 const updatePost = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		if (!req.body || !req.body.content)
-			return next(new AppError("please provide content to update", 403));
 		const postId = +req.params.id;
-		const { content }: { content: string } = req.body;
+		const { content, title }: { content?: string; title?: string } = req.body;
+
+		if (!content && !title)
+			return next(new AppError("must have title or content to edit", 403));
 		const response = await pool.query(findPostById(postId));
+
 		if (response.rows[0].user_id !== req.user.id)
 			return next(
 				new AppError("You are not authorized to edit this post", 403)
 			);
-		await pool.query(updatePostById(postId, content));
+		const post: { title: string; content: string } = {
+			title: "",
+			content: "",
+		};
+
+		if (title) post.title = title;
+		if (content) post.content = content;
+		console.log(updatePostById(postId, post));
+		await pool.query(updatePostById(postId, post));
+
 		res.status(201).json({
 			status: "success",
 			message: "post updated",
@@ -85,4 +133,11 @@ const deletePost = async (req: Request, res: Response, next: NextFunction) => {
 	}
 };
 
-export { getAllPosts, createPost, getPost, updatePost, deletePost };
+export {
+	getAllPosts,
+	createPost,
+	getPost,
+	updatePost,
+	deletePost,
+	getAllPostsByUserId,
+};

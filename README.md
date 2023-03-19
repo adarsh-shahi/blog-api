@@ -1,10 +1,19 @@
 ## API for simple blogging application
 
+Signup User(public endpoint)
+
+
+| Field    |  Type  | Required | Constrainsts |
+| :------- | :----: | :------: | :----------: |
+| email    | string |   Yes    | valid email  |
+| password | string |   Yes    | min length 5 |
+| username | string |   Yes    | min length 3 |
+
 #
 
 ### Features
- *will be added soon..*
 
+_will be added soon.._
 
 ### Schema
 
@@ -24,7 +33,8 @@ CREATE TABLE users(
 	avatar VARCHAR(500)
 )
 ```
-2. Posts 
+
+2. Posts
 
 ```sql
 CREATE TABLE posts(

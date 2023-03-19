@@ -19,4 +19,10 @@ const findUserByUsername = (user: IUserRequestBody, password?: boolean) => {
 	}'`;
 };
 
-export { addUser, findUserByEmail, findUserByUsername };
+const findUserById = (id: number, password?: boolean) => {
+	return `SELECT${
+		password ? ` password, ` : " "
+	}username, id, email, bio, avatar FROM users WHERE id = '${id}'`;
+};
+
+export { addUser, findUserByEmail, findUserByUsername, findUserById };
