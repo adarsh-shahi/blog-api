@@ -15,6 +15,7 @@ app.use(express.json());
 
 app.use((req, res, next) => {
 	console.log(`working fine`);
+	console.log(req.body);
 	next();
 });
 

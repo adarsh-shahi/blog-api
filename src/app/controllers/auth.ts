@@ -39,8 +39,12 @@ export interface IUserRequestBody {
 const login = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const user: IUserRequestBody = req.body;
-		if ((!user.username && !user.email) || !user.password)
+		console.log(user);
+		if ((!user.username && !user.email) || !user.password) {
+			console.log(`came here`);
 			return next(new AppError("please provide email and password", 401));
+		}
+		console.log(user.username, user.password);
 		const key = user.username ? "username" : "email";
 		const value = user.username?.trim() || user.email?.trim(); // user can provide username or email to login
 

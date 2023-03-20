@@ -18,6 +18,7 @@ app.use(express_1.default.json());
 // }
 app.use((req, res, next) => {
     console.log(`working fine`);
+    console.log(req.body);
     next();
 });
 app.use("/v1", userRoutes_1.default);

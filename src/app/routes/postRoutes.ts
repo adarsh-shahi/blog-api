@@ -11,6 +11,9 @@ import {
 
 const router = express.Router();
 
+/*
+ *  POSTS - (CRUD) routes
+ */
 router.route("/").get(protect, getAllPosts).post(protect, createPost);
 router
 	.route("/:id")
@@ -18,4 +21,12 @@ router
 	.patch(protect, updatePost)
 	.delete(protect, deletePost);
 router.get("/user/:id", protect, getAllPostsByUserId);
+
+/*
+ *  LIKES - (CRUD) routes
+ */
+
+router.route("/:id/like/usernames").get(protect);
+router.route("/:id/like/count").get(protect);
+router.route("/:id/like/user/:uid").get(protect).post(protect);
 export default router;

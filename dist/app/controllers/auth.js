@@ -28,8 +28,12 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
     var _a, _b;
     try {
         const user = req.body;
-        if ((!user.username && !user.email) || !user.password)
+        console.log(user);
+        if ((!user.username && !user.email) || !user.password) {
+            console.log(`came here`);
             return next(new AppError_1.default("please provide email and password", 401));
+        }
+        console.log(user.username, user.password);
         const key = user.username ? "username" : "email";
         const value = ((_a = user.username) === null || _a === void 0 ? void 0 : _a.trim()) || ((_b = user.email) === null || _b === void 0 ? void 0 : _b.trim()); // user can provide username or email to login
         let userLoginCred;

@@ -2,7 +2,6 @@
 
 Signup User(public endpoint)
 
-
 | Field    |  Type  | Required | Constrainsts |
 | :------- | :----: | :------: | :----------: |
 | email    | string |   Yes    | valid email  |
@@ -44,5 +43,31 @@ CREATE TABLE posts(
 	user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
 	title VARCHAR(260) NOT NULL,
 	content VARCHAR(10000) NOT NULL
+)
+```
+
+3. Likes
+
+```sql
+CREATE TABLE likes(
+	id SERIAL PRIMARY KEY,
+	created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+	user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+	post_id INTEGER NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
+	UNIQUE(user_id, post_id)
+)
+```
+
+4. Comments
+
+```sql
+CREATE TABLE comments(
+	id SERIAL PRIMARY KEY,
+	created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+	user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+	post_id INTEGER NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
+	comment VARCHAR(260) NOT NULL
 )
 ```
