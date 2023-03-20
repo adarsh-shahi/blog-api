@@ -1,6 +1,12 @@
 import express from "express";
 import { protect } from "../controllers/auth";
 import {
+	checkLikePost,
+	getAllLikesOnPost,
+	getAllUsernamesOnPost,
+	likePost,
+} from "../controllers/likeControllers";
+import {
 	createPost,
 	deletePost,
 	getAllPosts,
@@ -26,7 +32,10 @@ router.get("/user/:id", protect, getAllPostsByUserId);
  *  LIKES - (CRUD) routes
  */
 
-router.route("/:id/like/usernames").get(protect);
-router.route("/:id/like/count").get(protect);
-router.route("/:id/like/user/:uid").get(protect).post(protect);
+router.route("/:id/like/usernames").get(protect, getAllUsernamesOnPost);
+router.route("/:id/like/count").get(protect, getAllLikesOnPost);
+router
+	.route("/:id/like/user/:uid")
+	.get(protect, checkLikePost)
+	.post(protect, likePost);
 export default router;
