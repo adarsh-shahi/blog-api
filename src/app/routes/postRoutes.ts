@@ -1,6 +1,12 @@
 import express from "express";
 import { protect } from "../controllers/auth";
 import {
+	createComment,
+	deleteComment,
+	getAllCommentsOnPost,
+	updateComment,
+} from "../controllers/commentController";
+import {
 	checkLikePost,
 	getAllLikesOnPost,
 	getAllUsernamesOnPost,
@@ -32,10 +38,22 @@ router.get("/user/:id", protect, getAllPostsByUserId);
  *  LIKES - (CRUD) routes
  */
 
+// TODO: Handle to delete likes
+
 router.route("/:id/like/usernames").get(protect, getAllUsernamesOnPost);
 router.route("/:id/like/count").get(protect, getAllLikesOnPost);
 router
 	.route("/:id/like/user/:uid")
 	.get(protect, checkLikePost)
 	.post(protect, likePost);
+
+/*
+ *  COMMENTS - (CRUD) routes
+ */
+router.route("/:id/comment").get(protect, getAllCommentsOnPost);
+router
+	.route("/:id/comment/user/:uid")
+	.post(protect, createComment)
+	.patch(protect, updateComment)
+	.delete(protect, deleteComment);
 export default router;
