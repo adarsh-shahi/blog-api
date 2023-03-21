@@ -16,6 +16,13 @@ const QlikePost = (postId: number, userId?: number) => {
   `;
 };
 
+const QdeleteLikeOnPost = (postId: number, userId?: number) => {
+	return `
+  DELETE FROM likes
+  WHERE post_id = ${postId} AND user_id = ${userId}
+  `;
+};
+
 const QcheckLikePost = (postId: number, userId?: number) => {
 	return `
   SELECT COUNT(*) FROM likes WHERE post_id = ${postId} AND user_id = ${userId}
@@ -27,4 +34,5 @@ export {
 	QgetAllUsernamesOnPost,
 	QlikePost,
 	QcheckLikePost,
+	QdeleteLikeOnPost,
 };

@@ -22,13 +22,13 @@ router.get("/user/:id", auth_1.protect, postController_1.getAllPostsByUserId);
 /*
  *  LIKES - (CRUD) routes
  */
-// TODO: Handle to delete likes
 router.route("/:id/like/usernames").get(auth_1.protect, likeControllers_1.getAllUsernamesOnPost);
 router.route("/:id/like/count").get(auth_1.protect, likeControllers_1.getAllLikesOnPost);
 router
     .route("/:id/like/user/:uid")
     .get(auth_1.protect, likeControllers_1.checkLikePost)
-    .post(auth_1.protect, likeControllers_1.likePost);
+    .post(auth_1.protect, likeControllers_1.likePost)
+    .delete(auth_1.protect, likeControllers_1.deleteLikeOnPost);
 /*
  *  COMMENTS - (CRUD) routes
  */

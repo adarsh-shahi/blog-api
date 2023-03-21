@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.QcheckLikePost = exports.QlikePost = exports.QgetAllUsernamesOnPost = exports.QgetLikesCountOnPost = void 0;
+exports.QdeleteLikeOnPost = exports.QcheckLikePost = exports.QlikePost = exports.QgetAllUsernamesOnPost = exports.QgetLikesCountOnPost = void 0;
 const QgetLikesCountOnPost = (postId) => {
     return `
   SELECT COUNT(*) as count FROM likes WHERE post_id = ${postId}
@@ -19,6 +19,13 @@ const QlikePost = (postId, userId) => {
   `;
 };
 exports.QlikePost = QlikePost;
+const QdeleteLikeOnPost = (postId, userId) => {
+    return `
+  DELETE FROM likes
+  WHERE post_id = ${postId} AND user_id = ${userId}
+  `;
+};
+exports.QdeleteLikeOnPost = QdeleteLikeOnPost;
 const QcheckLikePost = (postId, userId) => {
     return `
   SELECT COUNT(*) FROM likes WHERE post_id = ${postId} AND user_id = ${userId}

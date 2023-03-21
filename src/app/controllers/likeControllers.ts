@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import pool from "../config/db";
 import {
 	QcheckLikePost,
+	QdeleteLikeOnPost,
 	QgetAllUsernamesOnPost,
 	QgetLikesCountOnPost,
 	QlikePost,
@@ -21,6 +22,7 @@ enum LIKE_PURPOSE {
 	CHECK_LIKE,
 	GET_USERNAMES,
 	GET_COUNT,
+	DELETE_LIKE,
 }
 
 const likeHandler = async (
@@ -47,6 +49,9 @@ const likeHandler = async (
 				break;
 			case LIKE_PURPOSE.GET_USERNAMES:
 				message = response.rows.map((obj) => obj.username);
+				break;
+			case LIKE_PURPOSE.DELETE_LIKE:
+				message = "like deleted";
 				break;
 			default:
 				throw new Error("unhandled like action");
@@ -100,6 +105,22 @@ const likePost = async (req: Request, res: Response, next: NextFunction) => {
 	);
 };
 
+const deleteLikeOnPost = (req: Request, res: Response, next: NextFunction) => {
+	if (req.user.id !== +req.params.uid)
+		return next(
+			new AppError("you are not authorized to unlike this post", 403)
+		);
+
+	likeHandler(
+		+req.params.id,
+		QdeleteLikeOnPost,
+		res,
+		next,
+		LIKE_PURPOSE.DELETE_LIKE,
+		+req.params.uid
+	);
+};
+
 const checkLikePost = async (req: Request, res: Response, next: NextFunction) =>
 	likeHandler(
 		+req.params.id,
@@ -109,4 +130,10 @@ const checkLikePost = async (req: Request, res: Response, next: NextFunction) =>
 		LIKE_PURPOSE.CHECK_LIKE,
 		+req.params.uid
 	);
-export { getAllLikesOnPost, getAllUsernamesOnPost, checkLikePost, likePost };
+export {
+	getAllLikesOnPost,
+	getAllUsernamesOnPost,
+	checkLikePost,
+	likePost,
+	deleteLikeOnPost,
+};
