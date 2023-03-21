@@ -9,6 +9,7 @@ import {
 	getPostsByUserId,
 	getAllPost,
 } from "../queries/postQueries";
+import { url } from "inspector";
 
 const getAllPosts = async (req: Request, res: Response, next: NextFunction) => {
 	try {
@@ -32,12 +33,14 @@ const getAllPosts = async (req: Request, res: Response, next: NextFunction) => {
 
 const createPost = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const { title, content }: { content: string; title: string } = req.body;
-		content?.trim();
-		title?.trim();
+		const {
+			title,
+			content,
+			url,
+		}: { content: string; title: string; url?: string } = req.body;
 		if (!content || !title)
 			return next(new AppError("add content and title to make a post", 401));
-		await pool.query(makePost(req.user.id, title, content));
+		await pool.query(makePost(req.user.id, title, content, url));
 		res.status(201).json({
 			status: "success",
 			message: "posted",
@@ -88,24 +91,30 @@ const getAllPostsByUserId = async (
 const updatePost = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const postId = +req.params.id;
-		const { content, title }: { content?: string; title?: string } = req.body;
+		const {
+			content,
+			title,
+			url,
+		}: { content?: string; title?: string; url?: string } = req.body;
 
 		if (!content && !title)
 			return next(new AppError("must have title or content to edit", 403));
 		const response = await pool.query(findPostById(postId));
+		console.log(response);
 
 		if (response.rows[0].user_id !== req.user.id)
 			return next(
 				new AppError("You are not authorized to edit this post", 403)
 			);
-		const post: { title: string; content: string } = {
+		const post: { title: string; content: string; url: string } = {
 			title: "",
 			content: "",
+			url: "",
 		};
 
 		if (title) post.title = title;
 		if (content) post.content = content;
-		console.log(updatePostById(postId, post));
+		if (url) post.url = url;
 		await pool.query(updatePostById(postId, post));
 
 		res.status(201).json({

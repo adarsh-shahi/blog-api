@@ -38,12 +38,10 @@ const getAllPosts = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
 exports.getAllPosts = getAllPosts;
 const createPost = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { title, content } = req.body;
-        content === null || content === void 0 ? void 0 : content.trim();
-        title === null || title === void 0 ? void 0 : title.trim();
+        const { title, content, url, } = req.body;
         if (!content || !title)
             return next(new AppError_1.default("add content and title to make a post", 401));
-        yield db_1.default.query((0, postQueries_1.makePost)(req.user.id, title, content));
+        yield db_1.default.query((0, postQueries_1.makePost)(req.user.id, title, content, url));
         res.status(201).json({
             status: "success",
             message: "posted",
@@ -93,21 +91,24 @@ exports.getAllPostsByUserId = getAllPostsByUserId;
 const updatePost = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const postId = +req.params.id;
-        const { content, title } = req.body;
+        const { content, title, url, } = req.body;
         if (!content && !title)
             return next(new AppError_1.default("must have title or content to edit", 403));
         const response = yield db_1.default.query((0, postQueries_1.findPostById)(postId));
+        console.log(response);
         if (response.rows[0].user_id !== req.user.id)
             return next(new AppError_1.default("You are not authorized to edit this post", 403));
         const post = {
             title: "",
             content: "",
+            url: "",
         };
         if (title)
             post.title = title;
         if (content)
             post.content = content;
-        console.log((0, postQueries_1.updatePostById)(postId, post));
+        if (url)
+            post.url = url;
         yield db_1.default.query((0, postQueries_1.updatePostById)(postId, post));
         res.status(201).json({
             status: "success",
