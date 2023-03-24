@@ -69,7 +69,8 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 		res.status(200).json({
 			status: "success",
 			message: {
-				user: userLoginCred?.username || userLoginCred?.password,
+				username: userLoginCred?.username,
+				email: response.rows[0].email,
 				token: signToken(
 					response.rows[0].id,
 					response.rows[0].email,

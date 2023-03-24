@@ -23,6 +23,7 @@ app.use("/v1", userRouter);
 app.use("/v1/posts", postRouter);
 
 app.all("*", (req, res) => {
+	console.log("in unspecified route");
 	res.status(404).json({
 		status: "fail",
 		message: "Resourse not found",

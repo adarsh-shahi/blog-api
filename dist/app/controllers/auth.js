@@ -53,7 +53,8 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
         res.status(200).json({
             status: "success",
             message: {
-                user: (userLoginCred === null || userLoginCred === void 0 ? void 0 : userLoginCred.username) || (userLoginCred === null || userLoginCred === void 0 ? void 0 : userLoginCred.password),
+                username: userLoginCred === null || userLoginCred === void 0 ? void 0 : userLoginCred.username,
+                email: response.rows[0].email,
                 token: signToken(response.rows[0].id, response.rows[0].email, response.rows[0].username),
             },
         });
