@@ -66,17 +66,19 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 		if (!(await bcrypt.compare(user.password, response.rows[0].password)))
 			return next(new AppError("password wrong", 403));
 
+		const data = {
+			username: userLoginCred?.username,
+			email: response.rows[0].email,
+			token: signToken(
+				response.rows[0].id,
+				response.rows[0].email,
+				response.rows[0].username
+			),
+		};
+		console.log(data);
 		res.status(200).json({
 			status: "success",
-			message: {
-				username: userLoginCred?.username,
-				email: response.rows[0].email,
-				token: signToken(
-					response.rows[0].id,
-					response.rows[0].email,
-					response.rows[0].username
-				),
-			},
+			message: data,
 		});
 	} catch (err: any) {
 		console.log(err);
@@ -122,7 +124,7 @@ const signup = async (req: Request, res: Response, next: NextFunction) => {
 			);
 		}
 
-		console.log(signToken(45, "adrs","sdugf"));
+		console.log(signToken(45, "adrs", "sdugf"));
 		user.password = await bcrypt.hash(user.password, 8);
 		await pool.query(addUser(user));
 		const response = await pool.query(findUserByUsername(user));
