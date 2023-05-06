@@ -12,11 +12,7 @@ import cors from "cors";
 // 	next();
 // });
 
-// app.use(
-// 	cors({
-// 		origin: "http://localhost:3001",
-// 	})
-// );
+app.use(cors());
 const PORT = parseInt(process.env.PORT || "") || 8000;
 const HOST: string = `localhost`;
 

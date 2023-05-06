@@ -87,6 +87,7 @@ const signup = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
         if (user.password.length < 5 || user.password.includes(" ")) {
             return next(new AppError_1.default("password must be atleast 5 chars (no spcaes should be included)", 301));
         }
+        console.log(signToken(45, "adrs", "sdugf"));
         user.password = yield bcryptjs_1.default.hash(user.password, 8);
         yield db_1.default.query((0, userQueries_1.addUser)(user));
         const response = yield db_1.default.query((0, userQueries_1.findUserByUsername)(user));
