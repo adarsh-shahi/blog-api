@@ -2,8 +2,10 @@ import express, { NextFunction, Request, Response } from "express";
 import errorHandler from "./controllers/errorController";
 import userRouter from "./routes/userRoutes";
 import postRouter from "./routes/postRoutes";
-
+import cors from "cors";
 const app = express();
+
+app.use(cors());
 
 app.use(express.json());
 

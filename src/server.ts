@@ -1,7 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config();
 import { app } from "./app";
-import cors from "cors";
 
 // app.use(function (req, res, next) {
 // 	res.header("Access-Control-Allow-Origin", "http://192.168.0.111:3001"); // update to match the domain you will make the request from
@@ -12,7 +11,6 @@ import cors from "cors";
 // 	next();
 // });
 
-app.use(cors());
 const PORT = parseInt(process.env.PORT || "") || 8000;
 const HOST: string = `localhost`;
 
