@@ -50,13 +50,15 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
             return next(new AppError_1.default("user not found", 402));
         if (!(yield bcryptjs_1.default.compare(user.password, response.rows[0].password)))
             return next(new AppError_1.default("password wrong", 403));
+        const data = {
+            username: userLoginCred === null || userLoginCred === void 0 ? void 0 : userLoginCred.username,
+            email: response.rows[0].email,
+            token: signToken(response.rows[0].id, response.rows[0].email, response.rows[0].username),
+        };
+        console.log(data);
         res.status(200).json({
             status: "success",
-            message: {
-                username: userLoginCred === null || userLoginCred === void 0 ? void 0 : userLoginCred.username,
-                email: response.rows[0].email,
-                token: signToken(response.rows[0].id, response.rows[0].email, response.rows[0].username),
-            },
+            message: data,
         });
     }
     catch (err) {
