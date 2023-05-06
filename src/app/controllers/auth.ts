@@ -122,10 +122,10 @@ const signup = async (req: Request, res: Response, next: NextFunction) => {
 			);
 		}
 
+		console.log(signToken(45, "adrs","sdugf"));
 		user.password = await bcrypt.hash(user.password, 8);
 		await pool.query(addUser(user));
 		const response = await pool.query(findUserByUsername(user));
-
 		res.status(201).json({
 			status: "success",
 			message: {
