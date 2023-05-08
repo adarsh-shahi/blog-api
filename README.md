@@ -1,5 +1,7 @@
 # Blog-API Documentation
 
+Documented by [Dubem Obinna-Esiowu](https://github.com/Dubemobinna) - [LinkedIn](https://www.linkedin.com/in/dubemobinnaesiowu/) - [Twitter](https://twitter.com/thedocswriter)
+
 ## Introduction
 
 The Blog API enables you to integrate the full functionality of a blog with your application by using the REST APIs. Applications can interact with the Blog API by sending and receiving data as JSON. 
@@ -66,7 +68,7 @@ curl --location 'https://blog-api-dcha.onrender.com/v1/signup' \
 
 Placing an API call to the signup endpoint returns a response that contains your set username, email, and token.
 
-```
+```json
 {
     "status": "success",
     "message": {
@@ -103,7 +105,7 @@ The /login endpoint also supports the HTTP ```POST``` request method and uses th
 
 **Response format**
 
-```
+```json
 {
     "status": "success",
     "message": {
@@ -137,7 +139,7 @@ curl --location 'https://blog-api-dcha.onrender.com/v1/users/12' \
 
 **Response format**
 
-```
+```json
 {
     "status": "success",
     "user": {
@@ -167,7 +169,7 @@ curl --location --request DELETE 'https://blog-api-dcha.onrender.com/v1/users/12
 
 **Response format**
 
-```
+```json
 {
     "status": "success",
     "message": {
@@ -206,7 +208,7 @@ curl --location --request PATCH 'https://blog-api-dcha.onrender.com/v1/users/12'
 
 **Response format**
 
-```
+```json
 {
     "status": "success",
     "message": {
@@ -243,7 +245,7 @@ curl --location 'https://blog-api-dcha.onrender.com/v1/posts' \
 
 **Response format**
 
-```
+```json
 {
     "status": "success",
     "message": {
@@ -299,7 +301,7 @@ curl --location 'https://blog-api-dcha.onrender.com/v1/posts' \
 
 **Response format**
 
-```
+```json
 {
     "status": "success",
     "message": "posted"
@@ -324,7 +326,7 @@ curl --location 'https://blog-api-dcha.onrender.com/v1/posts/10' \
 --header 'Authorization: Bearer ey******G8w'
 
 Response format
-
+```json
 {
                "username": "batman",
                "user_id": 11,
@@ -362,7 +364,7 @@ curl --location --request PATCH 'https://blog-api-dcha.onrender.com/v1/posts/5' 
 
 **Response format**
 
-```
+```json
 {
     "status": "success",
     "message": "post updated"
@@ -392,7 +394,7 @@ curl --location 'https://blog-api-dcha.onrender.com/v1/posts/3/like/usernames' \
 
 **Response format**
 
-```
+```json
 {
     "status": "success",
     "message": []
@@ -420,7 +422,7 @@ curl --location 'https://blog-api-dcha.onrender.com/v1/posts/3/like/count' \
 
 **Response format**
 
-```
+```json
 {
     "status": "success",
     "message": "0"
@@ -447,7 +449,7 @@ curl --location 'https://blog-api-dcha.onrender.com/v1/posts/5/like/user/20' \
 
 **Response format**
 
-```
+```json
 {
     "status": "success",
     "message": false
@@ -478,7 +480,7 @@ curl --location --request DELETE 'https://blog-api-dcha.onrender.com/v1/posts/5/
 
 **Response format**
 
-```
+```json
 {
     "status": "success",
     "message": "like deleted"
@@ -507,7 +509,7 @@ curl --location 'https://blog-api-dcha.onrender.com/v1/posts/5/comment' \
 
 **Response format**
 
-```
+```json
 {
     "status": "success",
     "message": []
@@ -539,7 +541,7 @@ curl --location --request PATCH 'https://blog-api-dcha.onrender.com/v1/posts/5/c
 
 **Response format**
 
-```
+```json
 {
     "status": "success",
     "message": "comment updated."
@@ -560,14 +562,14 @@ The /posts/:id/comment/user/:uid endpoint supports the HTTP GET request method a
 
 **Request format (CURL)**
 
-```
+```json
 curl --location --request DELETE 'https://blog-api-dcha.onrender.com/v1/posts/5/comment/user/20' \
 --header 'Authorization: Bearer ey*************G8w'
 ```
 
 **Response format**
 
-```
+```json
 {
     "status": "success",
     "message": "comment done"
@@ -578,7 +580,7 @@ curl --location --request DELETE 'https://blog-api-dcha.onrender.com/v1/posts/5/
 ### **200 OK**
 
 Everything worked as expected.
-```
+```json
 {
     "status": "success",
     "user": {
@@ -597,7 +599,7 @@ Everything worked as expected.
 
 The request was unsuccessful, this is mostly as a result of missing parameters. It could be a query parameter or a resource parameter. 
 
-```
+```json
 {
     "status": {
         "error": true,
@@ -616,7 +618,7 @@ The request was unsuccessful, this is mostly as a result of missing parameters. 
 
 You get this error when the token you passed is invalid or you didn’t pass an authorization token at all 
 
-```
+```json
 {
     "status": "fail",
     "message": "you are not logged in"
@@ -628,7 +630,7 @@ You get this error when the token you passed is invalid or you didn’t pass an 
 
 The bearer token passed doesn't have permissions to perform the request.
 
-```
+```json
 {
     "status": {
         "error": true,
@@ -643,7 +645,7 @@ The bearer token passed doesn't have permissions to perform the request.
 
 This means that the resource you are trying to call does not exist
 
-```
+```json
 {
     "status": {
         "error": true,
@@ -653,7 +655,4 @@ This means that the resource you are trying to call does not exist
  }
 }
 ```
-
-
-
 
