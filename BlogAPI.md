@@ -167,6 +167,18 @@ curl --location --request DELETE 'https://blog-api-dcha.onrender.com/v1/users/12
 
 **Response format**
 
+```
+{
+    "status": "success",
+    "message": {
+        "id: 2,
+        "username": "Duby"
+        "email": "**********@gmail.com",
+        "bio": null,
+        "avatar": null,
+        }
+  }
+  ```
 
 - ### **Update user**
 
@@ -194,6 +206,18 @@ curl --location --request PATCH 'https://blog-api-dcha.onrender.com/v1/users/12'
 
 **Response format**
 
+```
+{
+    "status": "success",
+    "message": {
+        "id: 2,
+        "username": "Duby"
+        "email": "**********@gmail.com",
+        "bio": null,
+        "avatar": null,
+        }
+  }
+  ```
   ## Post statuses
 
 - ### **Fetch all posts**
