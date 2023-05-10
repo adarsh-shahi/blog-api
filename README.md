@@ -2,11 +2,24 @@
 
 Documented by [Dubem Obinna-Esiowu](https://github.com/Dubemobinna) - [LinkedIn](https://www.linkedin.com/in/dubemobinnaesiowu/) - [Twitter](https://twitter.com/thedocswriter)
 
-## Introduction
+## The basics
 
-The Blog API enables you to integrate the full functionality of a blog with your application by using the REST APIs. Applications can interact with the Blog API by sending and receiving data as JSON. 
+The Blog API enables you to integrate the full functionality of a blog with your application by using the REST APIs. Applications can interact with the Blog API by sending and receiving data as JSON. The Blog API provides programmatic acess to data and functionality by allowing the `users` to `Post status`, `Post likes`, and do `comments`. 
+
+## Using Blog API
 
 Using the Blog API, you can sign up, log in, create new articles, update older articles, fetch user data, update users on the platform, and more. This will create seamless connectivity and automate blogging processes on your application.
+
+## API version
+
+The Blog API is currently on version 1.0.
+
+## API structure
+
+The Blog API generally follows REST conventions.
+- Actions are usually represented by HTTP methods.
+- Responces use the generic JSON content type.
+The root url for the API is https://blog-api-dcha.onrender.com.
 
 ## Quickstart
 
@@ -14,28 +27,35 @@ This document is intended for developers building applications that require a bl
 
 To get started, you will have to use an authentication token. 
 
-## Authentication
+## Connecting to the API
 
-Blog-API uses an authentication mechanism based on basic authentication. Once the authentication is successful, you will be provided with a token that grants you authorized access to the private endpoints. 
+Blog-API uses an authentication mechanism based on basic authentication. With basic authentication, you pass your credentials (your account's email address and password) in request. Once the authentication is successful, you will be provided with a token that grants you authorized access to the private endpoints. Your credentials are not encrypted or hashed, they are Base64-encoded only.
 
-## Schema overview 
+## HTTP methods
+The Blog API accepts the standard HTTP methods: GET, POST, PATCH. and DELETE.
+- To retrieve data make a GET request . AS GET requests safe and idempotent, so they will never cause an update or change to your data .
+- To create new resources use a POST request . For example, make a POST request to a collection endpoint where the body of your request JSON contains all of the required information about the new object to be added to the collection.
+- To update a resource make a PATCH request. With PATCH requests, you only need to provide the data you want to change.
+- To remove a resource make a DELETE request.
 
-| id | integer|
----------------
-| uid | integer |
-----------------
-| Username | string |
----------------
-| Email | string |
----------------
-| Bio | string |
----------------
-| Avatar | string |
----------------
-| Password | string |
--------------------
+## Response schema overview 
+
+| Item | Description | Data type | Required/Optional |
+| ------ | ------ | ------ | ------ |
+| id | abbreviation for identification| integer| required |
+| uid | a unique identifier is a numeric or alphanumeric integer, associated with a single entity within a given system| integer | |
+| username | an identification used by a person with access to an online service | string | required |
+| email | messages distributed by electronic means | string | required |
+| bio | a biography or short profile of someone | string | optional |
+| avatar | an icon or figure representing a perticular person on internet forum | string | optional |
+| password | a string of characters,allows access to a computer system | string | required |
 
 ## API reference
+
+| Getting started | method | endpoint |
+| ------ | ------ | ------ |
+| | POST | /signup |
+| | POST | /login |
 
 - ### Getting started 
 
@@ -119,6 +139,12 @@ The /login endpoint also supports the HTTP ```POST``` request method and uses th
   ## User
 
 In order to access this set of endpoints, you are required to pass the authentication token in the header for verifications. 
+
+| User | method | endpoint |
+| ------ | ------ | ------ |
+| Retrieve specific user data | GET | /users/:id |
+| Delete user | DELETE | /users/:id |
+| Update user | PATCH | /users/:id |
 
 - ### Retrieve specific user data
   
@@ -221,6 +247,13 @@ curl --location --request PATCH 'https://blog-api-dcha.onrender.com/v1/users/12'
   }
   ```
   ## Post statuses
+  
+| Post status | method | endpoint |
+| ------ | ------ | ------ |
+| Fetch all posts | GET | /posts |
+| Add posts | POST | /posts |
+| Fetch posts by post id | GET | /posts/:id |
+| Update post by post id | PATCH | /posts/:id |
 
 - ### **Fetch all posts**
 
@@ -373,6 +406,14 @@ curl --location --request PATCH 'https://blog-api-dcha.onrender.com/v1/posts/5' 
 
 ## Post likes
 
+| Post likes | method | endpoints |
+| ------ | ------ | ------ |
+| All user names that have liked a post | GET | /posts/:id/like/usernames |
+| Like counts on a post | GET | posts/:id/like/count |
+| Check whether a user liked a post | GET | posts/:id/like/user/:uid |
+| Like a post | | posts/:id/like/user/:uid |
+| Delete like on a post | DELETE | posts/:id/like/user/:uid |
+
 - ### **All usernames that have liked a post**
 
 **/posts/:id/like/usernames**
@@ -489,6 +530,12 @@ curl --location --request DELETE 'https://blog-api-dcha.onrender.com/v1/posts/5/
 
 ## Comments 
 
+| Comments | method | endpoints |
+| ------ | ------ | ------ |
+| All comments on a post | GET | /posts/:id/comment |
+| Update comments on a post | PATCH | /posts/:id/comment/user/:uid |
+| Delete a comment | DELETE | /posts/:id/comment/user/:uid |
+
 - ### **All comments on a post**
 
 **/posts/:id/comment**
@@ -577,6 +624,15 @@ curl --location --request DELETE 'https://blog-api-dcha.onrender.com/v1/posts/5/
 ```
 
 ## Sample responses
+
+| Error codes | description |
+| ------ | ------ |
+| 200 | OK |
+| 400 | BAD REQUEST |
+| 401 | UNAUTHORIZED |
+| 403 | FORBIDDEN | 
+| 404 | NOT FOUND |
+
 ### **200 OK**
 
 Everything worked as expected.
