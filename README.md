@@ -3,39 +3,21 @@
 Documented by [Dubem Obinna-Esiowu](https://github.com/Dubemobinna) - [LinkedIn](https://www.linkedin.com/in/dubemobinnaesiowu/) - [Twitter](https://twitter.com/thedocswriter)
 
 
-## Response schema overview 
-
-| Item | Description | Data type | Required/Optional |
-| ------ | ------ | ------ | ------ |
-| id | abbreviation for identification| integer| required |
-| uid | a unique identifier is a numeric or alphanumeric integer, associated with a single entity within a given system| integer | |
-| username | an identification used by a person with access to an online service | string | required |
-| email | messages distributed by electronic means | string | required |
-| bio | a biography or short profile of someone | string | optional |
-| avatar | an icon or figure representing a perticular person on internet forum | string | optional |
-| password | a string of characters,allows access to a computer system | string | required |
-
 ## API reference
 
-| Getting started | method | endpoint |
-| ------ | ------ | ------ |
-| | POST | /signup |
-| | POST | /login |
+## Getting started
 
-- ### Getting started 
+Contains information about the signup and signin, /signup API helps you create an account to get started and the /login endpoint signs the user in.
+
+### **Endpoints**
+
+`POST` /signup
+/signup endpoint helps you create an account to get started.
+
+`POST` /login
+/login endpoint signs the user in.
 
 ### **/signup**
-
-The /signup API helps you create an account to get started and also gives you access to the authentication token. The process will allow you access to resources of other endpoints.
-
-You can signup by sending an HTTP `POST` request using the following format
-
-`POST https://blog-api-dcha.onrender.com/v1/signup`
-
-
-You won’t need the authentication token for this public endpoint. Rather, the API call to the `/signup` endpoint will provide a response containing the authentication key. 
-
-To get you signed in,  include your email, username, and password in the request body. 
 
 **Request format (CURL)**
 
@@ -64,19 +46,15 @@ Placing an API call to the signup endpoint returns a response that contains your
 }
 ```
 
+**Response schema**
+
+| Item | Description | Data type | Required/Optional |
+| ------ | ------ | ------ | ------ |
+| username | an identification used by a person with access to an online service | string | required |
+| email | messages distributed by electronic means | string | required |
+| token | an object which represents the right to perform some operation | string | required |
+
 ### **/login**
-
-The login endpoint signs the user in. The first thing it loads up is the login page, followed by an option for authentication. 
-
-Although it doesn’t require any authentication to place the API call, in the body of the /login method, you must include your username and password. 
-
-The login endpoint signs the user in. The first thing it loads up is the login page, followed by an option for authentication. 
-
-Although it doesn’t require any authentication to place the API call, in the body of the /login method, you must include your username and password. 
-
-The /login endpoint also supports the HTTP ```POST``` request method and uses this format 
-
-```POST https://blog-api-dcha.onrender.com/v1/login```
 
 **Request format (CURL)**
 
@@ -101,25 +79,39 @@ The /login endpoint also supports the HTTP ```POST``` request method and uses th
 }
 ```
 
-  ## User
+**Response schema**
 
-In order to access this set of endpoints, you are required to pass the authentication token in the header for verifications. 
+| Item | Description | Data type | Required/Optional |
+| ------ | ------ | ------ | ------ |
+| username | an identification used by a person with access to an online service | string | required |
+| email | messages distributed by electronic means | string | required |
+| token | an object which represents the right to perform some operation | string | required |
 
-| User | method | endpoint |
-| ------ | ------ | ------ |
-| Retrieve specific user data | GET | /users/:id |
-| Delete user | DELETE | /users/:id |
-| Update user | PATCH | /users/:id |
+## User
+
+To fetch, delete and update information about a specific user using their “id”. You can track information on the user by entering the unique user id, as it returns all basic information such as the user’s email, name, bio, avatar, and password.
+  
+### **Endpoints**
+
+`GET`	/users/:id
+`DELETE`	/users/:id
+`PATCH`	/users/:id
+
+### **Parameters**
+
+**Header parameter**
+
+Authorization: Bearer ey**************G8w
+
+**Path parameter**
+
+| Path parameter | Description |
+| ------ | ------ |
+| :id | abbreviation for a specific user identification |
 
 - ### Retrieve specific user data
-  
- ### **/users/:id**
 
- This is used to fetch information about a specific user using their “id”. You can track information on the user by entering the unique user id, as it returns all basic information such as the user’s email, name, bio, avatar, and password. 
-
-Here, the user id is an integer and should be added to the endpoint in this format:
-
-```GET https://blog-api-dcha.onrender.com/v1/users/<id>```
+### **/users/:id**
 
 **Request format (CURL)**
 
@@ -144,12 +136,20 @@ curl --location 'https://blog-api-dcha.onrender.com/v1/users/12' \
 }
 ```
 
+**Response schema
+
+| Item | Description | Data type | Required/Optional |
+| ------ | ------ | ------ | ------ |
+| id | abbreviation for identification| integer| required |
+| username | an identification used by a person with access to an online service | string | required |
+| email | messages distributed by electronic means | string | required |
+| bio | a biography or short profile of someone | string | optional |
+| avatar | an icon or figure representing a perticular person on internet forum | string | optional |
+| password | a string of characters,allows access to a computer system | string | required |
+
+
 - ### Delete user
 ### **/users/:id**
-
-You can use this endpoint to delete a user’s profile by specifying a valid user identifier. Here, the user ID is an integer and should be added to the endpoint in this format. 
-
-```DELETE https://blog-api-dcha.onrender.com/v1/users/<id>```
 
 **Request format (CURL)**
 
@@ -172,16 +172,21 @@ curl --location --request DELETE 'https://blog-api-dcha.onrender.com/v1/users/12
         }
   }
   ```
+  
+**Response schema
+
+| Item | Description | Data type | Required/Optional |
+| ------ | ------ | ------ | ------ |
+| id | abbreviation for identification| integer| required |
+| username | an identification used by a person with access to an online service | string | required |
+| email | messages distributed by electronic means | string | required |
+| bio | a biography or short profile of someone | string | optional |
+| avatar | an icon or figure representing a perticular person on internet forum | string | optional |
+
 
 - ### **Update user**
 
 **/users/:id**
-
-Set the id of the specific user, and input the new username, bio, and avatar for the profile of the existing user to be updated. 
-
-This request will return the updated details of the specific user, including their username, email, bio, and avatar. 
-
-`PATCH 'https://blog-api-dcha.onrender.com/v1/users/12'`
 
 
 **Request format (CURL)**
@@ -211,26 +216,43 @@ curl --location --request PATCH 'https://blog-api-dcha.onrender.com/v1/users/12'
         }
   }
   ```
-  ## Post statuses
   
-| Post status | method | endpoint |
-| ------ | ------ | ------ |
-| Fetch all posts | GET | /posts |
-| Add posts | POST | /posts |
-| Fetch posts by post id | GET | /posts/:id |
-| Update post by post id | PATCH | /posts/:id |
+**Response schema
+  
+| Item | Description | Data type | Required/Optional |
+| ------ | ------ | ------ | ------ |
+| id | abbreviation for identification| integer| required |
+| username | an identification used by a person with access to an online service | string | required |
+| email | messages distributed by electronic means | string | required |
+| bio | a biography or short profile of someone | string | optional |
+| avatar | an icon or figure representing a perticular person on internet forum | string | optional |
+
+## Post statuses
+
+To get and fetch all post data. The response you receive can be further filtered through the query parameter.
+
+### **Endpoints**
+  
+`GET` /posts
+`POST` /posts
+`GET` /posts/:id
+`PATCH` /posts/:id |
+
+### **Parameters**
+
+**Header parameter**
+
+Authorization: Bearer ey**************G8w
+
+**Path parameter**
+
+| Path parameter | Description |
+| ------ | ------ |
+| :id | abbreviation for a specific user identification |
 
 - ### **Fetch all posts**
 
-
 **/posts**
-
-
-This endpoint when triggered is responsible for fetching all post data. The response you receive can be further filtered through the query parameter.
-
-The /posts endpoint also supports the HTTP `GET` request method and uses this format
-
-`GET https://blog-api-dcha.onrender.com/v1/posts`
 
 
 **Request format (CURL)**
@@ -277,11 +299,7 @@ curl --location 'https://blog-api-dcha.onrender.com/v1/posts' \
 
 **/posts**
 
-Use the API to add a new post to the list of posts. The add posts endpoint uses the POST request method in this format:
-
-`POST https://blog-api-dcha.onrender.com/v1/posts`
-
-To complete the API call, you must include the title, content, and URL of the post you want to add to the collection in the body of your request using JSON format. 
+Use the API to add a new post to the list of posts. The add posts endpoint uses the POST request method in this format.
 
 **Request format (CURL)**
 
@@ -306,16 +324,11 @@ curl --location 'https://blog-api-dcha.onrender.com/v1/posts' \
 }
 ```
 
-
 - ### **Fetch posts by post ID**
 
 **/posts/:id**
 
-This endpoint lets you filter posts by adding a specific post ID to the endpoint in this format:
-
-`GET https://blog-api-dcha.onrender.com/v1/posts/<id>`
-
-The response you will get is data retrieved for the post you specified by ID. It will include the username, user id, post id, context, and thumbnail. 
+This endpoint lets you filter posts by adding a specific post ID to the endpoint in this format. 
 
 **Request format (CURL)**
 
@@ -323,7 +336,8 @@ The response you will get is data retrieved for the post you specified by ID. It
 curl --location 'https://blog-api-dcha.onrender.com/v1/posts/10' \
 --header 'Authorization: Bearer ey******G8w'
 
-Response format
+**Response format**
+
 ```json
 {
                "username": "batman",
@@ -341,13 +355,7 @@ Response format
 
 **/posts/:id**
 
-Use this endpoint to update your posts by the post’s id. There are various options when it comes to updating posts. You can edit the post title, post content, or thumbnail. 
-
-The /posts/:id endpoint supports the HTTP `PATCH` request method and uses this format:
-
-`PATCH https://blog-api-dcha.onrender.com/v1/posts/<id>`
-
-In the body of your request, you must add the details of the post you want to update in JSON format. In this request example, we will be updating the post content. 
+Use this endpoint to update your posts by the post’s id. There are various options when it comes to updating posts. You can edit the post title, post content, or thumbnail.
 
 **Request format (CURL)**
 
@@ -371,25 +379,32 @@ curl --location --request PATCH 'https://blog-api-dcha.onrender.com/v1/posts/5' 
 
 ## Post likes
 
-| Post likes | method | endpoints |
-| ------ | ------ | ------ |
-| All user names that have liked a post | GET | /posts/:id/like/usernames |
-| Like counts on a post | GET | posts/:id/like/count |
-| Check whether a user liked a post | GET | posts/:id/like/user/:uid |
-| Like a post | | posts/:id/like/user/:uid |
-| Delete like on a post | DELETE | posts/:id/like/user/:uid |
+To get a collection of usernames of those who have liked a post and to fetch number of likes on a post
+
+### **Endpoints**
+
+`GET` /posts/:id/like/usernames
+`GET` /posts/:id/like/count
+`GET` /posts/:id/like/user/:uid
+      /posts/:id/like/user/:uid
+`DELETE` /posts/:id/like/user/:uid
+
+### **Parameters**
+
+**Header parameter**
+
+Authorization: Bearer ey**************G8w
+
+**Path parameter**
+
+| Path parameter | Description |
+| ------ | ------ |
+| :id | abbreviation for a specific user identification |
+| :uid | a unique identifier is a numeric or alphanumeric integer, associated with a single entity within a given system |
 
 - ### **All usernames that have liked a post**
 
-**/posts/:id/like/usernames**
-
-This is the endpoint to use to enable you to retrieve a collection of usernames of those who have liked a post. 
-
-The /posts/:id/like/usernames endpoint supports the HTTP `PATCH` request method and uses this format:
-
-`GET https://blog-api-dcha.onrender.com/v1/posts/<id>/like/usernames`
-
-Replace `<id>` with the specific post id for the post you want to get information about. 
+**/posts/:id/like/usernames** 
 
 **Request format (CURL)**
 
@@ -410,13 +425,6 @@ curl --location 'https://blog-api-dcha.onrender.com/v1/posts/3/like/usernames' \
 - ### **Like counts on a post**
 
 **posts/:id/like/count**
-
-
-Fetch number of likes on a post using this endpoint. The `/posts/:id/like/count` endpoint supports the HTTP `GET` request method and uses this format:
-
-`GET https://blog-api-dcha.onrender.com/v1/posts/<id>/like/count`
-
-Replace `<id>` with the specific post id to retrieve like counts on that post.
 
 **Request format (CURL)**
 
@@ -440,11 +448,7 @@ curl --location 'https://blog-api-dcha.onrender.com/v1/posts/3/like/count' \
 **posts/:id/like/user/:uid**
 
 
-Use this endpoint to find out if a user has liked a post or not. The likes endpoint requires two IDs: one if the post `<id>` and the other is the user id `<uid>`. The two IDs are integers and to make a successful call to the endpoint, you must replace them with the appropriate integer in the URL
-
-The `/posts/:id/like/user/:uid` endpoint supports the HTTP `GET` request method and uses this format:
-
-`GET https://blog-api-dcha.onrender.com/v1/posts/<:id>/like/user/<:uid>`
+Use this endpoint to find out if a user has liked a post or not. The likes endpoint requires two IDs: one if the post `<id>` and the other is the user id `<uid>`. The two IDs are integers and to make a successful call to the endpoint, you must replace them with the appropriate integer in the URL.
 
 **Request format (CURL)**
 
@@ -473,10 +477,6 @@ curl --location 'https://blog-api-dcha.onrender.com/v1/posts/5/like/user/20' \
 
 This endpoint deletes a like for the user in the post with the given id. To place an API call to this endpoint, you need to replace `<id>`, and `<uid>` with the integer for the post identifier and user identifier respectively. 
 
-The `/posts/:id/like/user/:uid` endpoint supports the HTTP `GET` request method and uses this format:
-
-`DELETE https://blog-api-dcha.onrender.com/v1/posts/<:id>/like/user/<:uid>`
-
 **Request format (CURL)**
 
 ```
@@ -495,22 +495,30 @@ curl --location --request DELETE 'https://blog-api-dcha.onrender.com/v1/posts/5/
 
 ## Comments 
 
-| Comments | method | endpoints |
-| ------ | ------ | ------ |
-| All comments on a post | GET | /posts/:id/comment |
-| Update comments on a post | PATCH | /posts/:id/comment/user/:uid |
-| Delete a comment | DELETE | /posts/:id/comment/user/:uid |
+### **Endpoints**
+
+`GET` /posts/:id/comment
+`PATCH` /posts/:id/comment/user/:uid
+`DELETE` /posts/:id/comment/user/:uid
+
+### **Parameters**
+
+**Header parameter**
+
+Authorization: Bearer ey**************G8w
+
+**Path parameter**
+
+| Path parameter | Description |
+| ------ | ------ |
+| :id | abbreviation for a specific user identification |
+| :uid | a unique identifier is a numeric or alphanumeric integer, associated with a single entity within a given system |
 
 - ### **All comments on a post**
 
 **/posts/:id/comment**
 
-
 Use this endpoint to retrieve comments on a specific post. The identifier required in the endpoint is the post identifier specific to the post you need data on. 
-
-The `/posts/:id/comment` endpoint supports the HTTP `GET` request method and uses this format:
-
-`GET https://blog-api-dcha.onrender.com/v1/posts/:id/comment`
 
 **Request format (CURL)**
 
@@ -532,13 +540,7 @@ curl --location 'https://blog-api-dcha.onrender.com/v1/posts/5/comment' \
 
 **/posts/:id/comment/user/:uid**
 
-Querying this endpoint allows update or make changes to a comment on a post. To make an update on a specific post, you have to filter using resource parameters. In this case, the resource parameters are the user identifier `<id>` and the post identifier `<uid>`. 
-
-The `/posts/:id/comment` endpoint supports the HTTP `GET` request method and uses this format:
-
-`PATCH https://blog-api-dcha.onrender.com/v1/posts/<:id>/comment/user/<:uid>`
-
-In the request body, add details of the comment in JSON format in order to successfully make the update. 
+Querying this endpoint allows update or make changes to a comment on a post. To make an update on a specific post, you have to filter using resource parameters. In this case, the resource parameters are the user identifier `<id>` and the post identifier `<uid>`.  
 
 **Request format**
 
@@ -567,10 +569,6 @@ curl --location --request PATCH 'https://blog-api-dcha.onrender.com/v1/posts/5/c
 
 
 This endpoint deletes comments on a specific post. To determine the actual post where you want to delete a comment, you need to use the resource parameters, `<id>` and `<uid>`.
-
-The /posts/:id/comment/user/:uid endpoint supports the HTTP GET request method and uses this format:
-
-`DELETE https://blog-api-dcha.onrender.com/v1/posts/<:id>/comment/user/<:uid>`
 
 **Request format (CURL)**
 
