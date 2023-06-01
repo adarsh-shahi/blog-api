@@ -1,3 +1,5 @@
+# **Schema for Blog app**
+
 ```sql
 CREATE TABLE comments (
 	id SERIAL PRIMARY KEY,
@@ -8,6 +10,7 @@ CREATE TABLE comments (
 	comment VARCHAR(500) NOT NULL
 );
 ```
+
 ```sql
 CREATE TABLE likes (
 	id SERIAL PRIMARY KEY,
@@ -17,6 +20,7 @@ CREATE TABLE likes (
 	post_id INTEGER NOT NULL REFERENCES posts(id) ON DELETE CASCADE
 );
 ```
+
 ```sql
 CREATE TABLE posts (
 	id SERIAL PRIMARY KEY,
@@ -28,7 +32,6 @@ CREATE TABLE posts (
 	thumbnail_url VARCHAR(500)
 );
 ```
-
 
 ```sql
 CREATE TABLE users (
